@@ -16,6 +16,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo
+          target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: ${{ runner.os }}-cargo-
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
     - name: Build and test code
       run: |
         cargo build --verbose
@@ -34,6 +49,9 @@ jobs:
       uses: docker/bake-action@v2.3.0
       with:
         push: true
+        set: |
+          *.cache-from=type=gha
+          *.cache-to=type=gha,mode=max
 
   deploy:
     needs: build
@@ -41,7 +59,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v1
