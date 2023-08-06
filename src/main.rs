@@ -26,7 +26,7 @@ async fn main() {
       .route("/blog/:id", patch(BlogCtrl::update_blog))
       .with_state(db);
 
-    let addr = SocketAddr::from(([127,0,0,1], 3001));
+    let addr = SocketAddr::from(([0,0,0,0], 3001));
     println!("Server is running on port {addr}...");
     
     // server

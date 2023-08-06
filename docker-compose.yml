@@ -1,0 +1,29 @@
+version: '3'
+services:
+  api:
+    container_name: api
+    image: fury17/rust-axum-api
+    ports:
+      - "3001:3001"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:${POSTGRES_PASSWORD}@db 
+    depends_on:
+      - db
+    
+  db:
+    container_name: db
+    image: postgres:15-alpine 
+    restart: always
+    ports:
+      - "5433:5432" 
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
