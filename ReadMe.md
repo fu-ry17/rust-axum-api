@@ -20,8 +20,8 @@ A simple Rust API using the Axum framework to manage a collection of blogs. The 
 1. Clone the repository.
 
 ```bash
-git clone https://github.com/your-username/your-rust-api.git
-cd your-rust-api
+git clone https://github.com/fu-ry17/rust-axum-api.git
+cd rust-axum-api
 ```
 
 2. Create a `.env` file and add your PostgreSQL database connection string.
